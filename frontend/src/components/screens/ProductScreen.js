@@ -6,7 +6,7 @@ import products from '../../products';
 
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
-import { Product, Rating } from 'components/common';
+import { Rating } from 'components/common';
 
 const ProductScreen = ({ match }) => {
   const product = products.find((p) => p._id === match.params.id);
@@ -72,6 +72,8 @@ const ProductScreen = ({ match }) => {
   );
 };
 
-ProductScreen.propTypes = {};
+ProductScreen.propTypes = {
+  match: PropTypes.array.isRequired,
+};
 
 export { ProductScreen };
