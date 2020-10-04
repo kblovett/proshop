@@ -2,25 +2,36 @@ import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors';
 
-// DB
+// Error Handling imports
+import { notFound, errorHandler } from './middleware/errors/errorMiddleware.js';
+
+// DB import
 import connectDB from './config/db.js';
 
-// Routes
+// Route imports
 import productRoutes from './routes/productRoutes.js';
 
-dotenv.config();
-connectDB();
-const app = express();
+dotenv.config(); // init .env variables
+connectDB(); // connect to db
+const app = express(); // express app
 
+// API confirmation TODO: delete?
 app.get('/', (req, res) => {
   res.send('API is up and running...');
 });
 
+// Routes
 app.use('/api/products', productRoutes);
 
+// Error handling
+app.use(notFound);
+app.use(errorHandler);
+
+// define PORT and MODE variables
 const PORT = process.env.PORT || 5000;
 const MODE = process.env.NODE_ENV;
 
+// begin listening for calls
 app.listen(
   PORT,
   console.log(`Server running in ${MODE} mode on port ${PORT}`.yellow.bold)
