@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import products from '../../products';
+import axios from 'axios';
 
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
 import { Rating } from 'components/common';
 
 const ProductScreen = ({ match }) => {
-  const product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, []);
 
   return (
     <>
@@ -73,7 +80,7 @@ const ProductScreen = ({ match }) => {
 };
 
 ProductScreen.propTypes = {
-  match: PropTypes.array.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export { ProductScreen };
