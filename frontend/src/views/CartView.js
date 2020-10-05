@@ -19,7 +19,7 @@ import { Message } from 'components/common';
 // action imports
 import { addToCart, removeFromCart } from 'actions';
 
-const CartScreen = ({ match, location, history }) => {
+const CartView = ({ match, location, history }) => {
   const productId = match.params.id;
   const qty = location.search ? Number(location.search.split('=')[1]) : 1;
   const dispatch = useDispatch();
@@ -122,4 +122,4 @@ const CartScreen = ({ match, location, history }) => {
   );
 };
 
-export { CartScreen };
+export { CartView };

@@ -8,9 +8,9 @@ import { Row, Col } from 'react-bootstrap';
 import { Product, Loader, Message } from 'components/common';
 
 // action imports
-import { listProducts } from '../../actions/productActions';
+import { listProducts } from 'actions';
 
-const HomeScreen = () => {
+const HomeView = () => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
@@ -39,4 +39,4 @@ const HomeScreen = () => {
   );
 };
 
-export { HomeScreen };
+export { HomeView };

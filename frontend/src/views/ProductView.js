@@ -18,9 +18,9 @@ import {
 import { Rating, Loader, Message } from 'components/common';
 
 // action imports
-import { listProductDetails } from '../../actions/productActions';
+import { listProductDetails } from 'actions';
 
-const ProductScreen = ({ history, match }) => {
+const ProductView = ({ history, match }) => {
   const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
@@ -127,8 +127,8 @@ const ProductScreen = ({ history, match }) => {
   );
 };
 
-// ProductScreen.propTypes = {
+// ProductView.propTypes = {
 //   match: PropTypes.object.isRequired,
 // };
 
-export { ProductScreen };
+export { ProductView };
