@@ -17,7 +17,7 @@ import {
 import { Message } from 'components/common';
 
 // action imports
-import { addToCart } from 'actions';
+import { addToCart, removeFromCart } from 'actions';
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -34,7 +34,7 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    console.log(`${id} be gone!`);
+    dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping');
