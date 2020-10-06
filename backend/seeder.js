@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
 
@@ -8,9 +7,9 @@ import products from './data/products.js';
 // import orders from './data/oders.js';
 
 // Models
-import User from './data/models/userModel.js';
-import Product from './data/models/productModel.js';
-import Order from './data/models/orderModel.js';
+import User from './models/userModel.js';
+import Product from './models/productModel.js';
+import Order from './models/orderModel.js';
 
 // DB
 import connectDB from './config/db.js';

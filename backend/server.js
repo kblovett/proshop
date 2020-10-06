@@ -10,10 +10,14 @@ import connectDB from './config/db.js';
 
 // Route imports
 import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config(); // init .env variables
 connectDB(); // connect to db
 const app = express(); // express app
+
+// body parser for passing json in the params body
+app.use(express.json());
 
 // API confirmation TODO: delete?
 app.get('/', (req, res) => {
@@ -22,6 +26,7 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 // Error handling
 app.use(notFound);
