@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// constants imports
+// constant imports
 import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
