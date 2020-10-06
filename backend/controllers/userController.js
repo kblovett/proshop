@@ -6,8 +6,36 @@ import User from '../models/userModel.js';
 // util imports
 import generateToken from '../utils/generateToken.js';
 
-// middleware imports
-import { protect } from '../middleware/authMiddleware.js';
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    res.status(400);
+    throw new Error('Already registered');
+  } else {
+    const user = await User.create({
+      name,
+      email,
+      password,
+    });
+    if (user) {
+      const { _id, name, email, isAdmin } = user;
+      res.status(201).json({
+        _id,
+        name,
+        email,
+        isAdmin,
+        token: generateToken(_id),
+      });
+    } else {
+      res.status(400);
+      throw new Error('Invalid user data');
+    }
+  }
+});
 
 // @desc    Auth a User and get their token (jwt)
 // @route   POST /api/users/login
@@ -15,7 +43,6 @@ import { protect } from '../middleware/authMiddleware.js';
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-
   if (user && (await user.matchPassword(password))) {
     const { _id, name, email, isAdmin } = user;
     res.json({
@@ -50,4 +77,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile };
+export { registerUser, authUser, getUserProfile };
