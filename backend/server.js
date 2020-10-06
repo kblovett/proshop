@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 
 // Error Handling imports
-import { notFound, errorHandler } from './middleware/errors/errorMiddleware.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 // DB import
 import connectDB from './config/db.js';

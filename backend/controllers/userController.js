@@ -6,8 +6,11 @@ import User from '../models/userModel.js';
 // util imports
 import generateToken from '../utils/generateToken.js';
 
-// @desc    Fetch all users
-// @route   GET /api/users
+// middleware imports
+import { protect } from '../middleware/authMiddleware.js';
+
+// @desc    Auth a User and get their token (jwt)
+// @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -28,17 +31,23 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Fetch a single user
-// @route   GET /api/users/:id
-// @access  Public
-const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+// @desc    Fetch a user's profile
+// @route   GET /api/users/profile
+// @access  Private
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
   if (user) {
-    res.json(user);
+    const { _id, name, email, isAdmin } = user;
+    res.json({
+      _id,
+      name,
+      email,
+      isAdmin,
+    });
   } else {
     res.status(404);
     throw new Error('user not found');
   }
 });
 
-export { authUser, getUserById };
+export { authUser, getUserProfile };
