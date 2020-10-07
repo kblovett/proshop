@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import { Header, Footer } from 'components/common';
-import { HomeView, ProductView, CartView } from 'views';
+import { HomeView, LoginView, ProductView, CartView } from 'views';
 
 const App = () => {
   return (
@@ -12,9 +12,10 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/' component={HomeView} exact />
+          <Route path='/login' component={LoginView} exact />
           <Route path='/product/:id' component={ProductView} />
           <Route path='/cart/:id?' component={CartView} />
+          <Route path='/' component={HomeView} exact />
         </Container>
       </main>
       <Footer />
