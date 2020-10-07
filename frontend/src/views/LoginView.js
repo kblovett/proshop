@@ -34,8 +34,6 @@ const LoginView = ({ location, history }) => {
       {error && <Message variant='danger'>{error}</Message>}
       {loading ? (
         <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='email'>
