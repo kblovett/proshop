@@ -1,3 +1,4 @@
+export * from './CheckoutSteps';
 export * from './Footer';
 export * from './FormContainer';
 export * from './Header';
