@@ -8,8 +8,6 @@ import Product from '../models/productModel.js';
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
-  // res.status(401);
-  // throw new Error("ZOMG IT'S ALL BROKEN");
   res.json(products);
 });
 
