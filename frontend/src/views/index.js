@@ -1,6 +1,7 @@
 export * from './CartView';
 export * from './HomeView';
 export * from './LoginView';
+export * from './OrderView';
 export * from './PlaceOrderView';
 export * from './PaymentView';
 export * from './ProductView';
