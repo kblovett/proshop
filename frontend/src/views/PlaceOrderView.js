@@ -65,7 +65,7 @@ const PlaceOrderView = ({ history }) => {
 
   return (
     <>
-      <CheckoutSteps step1 step2 step3 step4 />
+      <CheckoutSteps sign ship pay place />
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
