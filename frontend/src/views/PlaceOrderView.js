@@ -7,6 +7,8 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 // component imports
 import { CheckoutSteps, Message } from 'components/common';
 import { createOrder } from 'actions';
+// utility imports
+import { numberFormat } from 'utils/numberFormatter';
 
 const PlaceOrderView = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,27 +19,14 @@ const PlaceOrderView = ({ history }) => {
     cartItems,
   } = cart;
 
-  // calculate prices
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
-  };
-  cart.itemsPrice = addDecimals(
-    Number(
-      cartItems.reduce(
-        (acc, item) => acc + (item.price * item.qty).toFixed(2),
-        0
-      )
-    )
+  // calculations
+  cart.itemsPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.qty,
+    0
   );
-  cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 10;
-  cart.taxPrice = addDecimals(Number((0.05 * cart.itemsPrice).toFixed(2)));
-  cart.totalPrice = addDecimals(
-    (
-      Number(cart.itemsPrice) +
-      Number(cart.shippingPrice) +
-      Number(cart.taxPrice)
-    ).toFixed(2)
-  );
+  cart.shippingPrice = cart.itemsPrice > 10 ? 0 : 10;
+  cart.taxPrice = 0.05 * cart.itemsPrice;
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -49,16 +38,17 @@ const PlaceOrderView = ({ history }) => {
     // eslint-disable-next-line
   }, [history, success]);
 
+  //console.log(cart.itemsPrice, cart.taxPrice, cart.totalPrice);
   const placeOrderHandler = () => {
     dispatch(
       createOrder({
         orderItems: cartItems,
         shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
+        itemsPrice: numberFormat('cur-store', cart.itemsPrice),
+        shippingPrice: numberFormat('cur-store', cart.shippingPrice),
+        taxPrice: numberFormat('cur-store', cart.taxPrice),
+        totalPrice: numberFormat('cur-store', cart.totalPrice),
       })
     );
   };
@@ -117,13 +107,10 @@ const PlaceOrderView = ({ history }) => {
                           {item.qty}
                         </Col>
                         <Col md={2} className='text-right'>
-                          ${item.price}
+                          {numberFormat('cur-display', item.price)}
                         </Col>
                         <Col md={2} className='text-right'>
-                          $
-                          {addDecimals(
-                            Number((item.price * item.qty).toFixed(2))
-                          )}
+                          {numberFormat('cur-display', item.price * item.qty)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -144,7 +131,7 @@ const PlaceOrderView = ({ history }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
+                  <Col>{numberFormat('cur-display', cart.itemsPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -153,20 +140,20 @@ const PlaceOrderView = ({ history }) => {
                   <Col>
                     {cart.shippingPrice === 0
                       ? 'FREE'
-                      : `$${cart.shippingPrice}`}
+                      : `${numberFormat('cur-display', cart.shippingPrice)}`}
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
+                  <Col>{numberFormat('cur-display', cart.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
+                  <Col>{numberFormat('cur-display', cart.totalPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

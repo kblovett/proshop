@@ -5,12 +5,14 @@ import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
 
 // bootstrap imports
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 // component imports
 import { Loader, Message } from 'components/common';
 import { getOrderDetails, payOrder } from 'actions';
 // constant imports
 import { ORDER_PAY_RESET } from '../constants';
+// utility imports
+import { numberFormat } from 'utils/numberFormatter';
 
 const OrderView = ({ match }) => {
   const orderId = match.params.id;
@@ -21,10 +23,6 @@ const OrderView = ({ match }) => {
   const { order, loading, error } = orderDetails;
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
-
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
-  };
 
   useEffect(() => {
     const addPayPalScript = async () => {
@@ -134,13 +132,10 @@ const OrderView = ({ match }) => {
                           {item.qty}
                         </Col>
                         <Col md={2} className='text-right'>
-                          ${item.price}
+                          {numberFormat('cur-display', item.price)}
                         </Col>
                         <Col md={2} className='text-right'>
-                          $
-                          {addDecimals(
-                            Number((item.qty * item.price).toFixed(2))
-                          )}
+                          {numberFormat('cur-display', item.qty * item.price)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -161,7 +156,7 @@ const OrderView = ({ match }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${order.itemsPrice}</Col>
+                  <Col>{numberFormat('cur-display', order.itemsPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -170,20 +165,20 @@ const OrderView = ({ match }) => {
                   <Col>
                     {order.shippingPrice === 0
                       ? 'FREE'
-                      : `$${order.shippingPrice}`}
+                      : numberFormat('cur-display', order.shippingPrice)}
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${order.taxPrice}</Col>
+                  <Col>{numberFormat('cur-display', order.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${order.totalPrice}</Col>
+                  <Col>{numberFormat('cur-display', order.totalPrice)}</Col>
                 </Row>
               </ListGroup.Item>
               {!order.isPaid ? (
