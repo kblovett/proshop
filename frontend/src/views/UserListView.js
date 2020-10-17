@@ -9,14 +9,20 @@ import { Message, Loader } from 'components/common';
 // action imports
 import { listUsers } from 'actions';
 
-const UserListView = () => {
+const UserListView = ({ history }) => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
-    dispatch(listUsers());
-  }, [dispatch]);
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(listUsers());
+    } else {
+      history.push('/login');
+    }
+  }, [userInfo, dispatch, history]);
 
   const userDeleteHandler = (id) => {
     console.log(`delete: ${id}`);
