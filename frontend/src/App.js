@@ -15,6 +15,7 @@ import {
   PaymentView,
   PlaceOrderView,
   OrderView,
+  UserListView,
 } from 'views';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
           <Route path='/payment' component={PaymentView} />
           <Route path='/placeorder' component={PlaceOrderView} />
           <Route path='/order/:id' component={OrderView} />
+          <Route path='/admin/userlist' component={UserListView} />
           <Route path='/' component={HomeView} exact />
         </Container>
       </main>

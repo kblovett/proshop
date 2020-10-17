@@ -8,3 +8,4 @@ export * from './ProductView';
 export * from './ProfileView';
 export * from './RegisterView';
 export * from './ShippingView';
+export * from './UserListView';
