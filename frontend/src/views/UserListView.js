@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 // component imports
 import { Message, Loader } from 'components/common';
 // action imports
-import { listUsers } from 'actions';
+import { listUsers, deleteUser } from 'actions';
 
 const UserListView = ({ history }) => {
   const dispatch = useDispatch();
@@ -15,6 +15,8 @@ const UserListView = ({ history }) => {
   const { loading, error, users } = userList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete } = userDelete;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -22,10 +24,12 @@ const UserListView = ({ history }) => {
     } else {
       history.push('/login');
     }
-  }, [userInfo, dispatch, history]);
+  }, [userInfo, dispatch, history, successDelete]);
 
   const userDeleteHandler = (id) => {
-    console.log(`delete: ${id}`);
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteUser(id));
+    }
   };
 
   return (

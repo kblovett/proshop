@@ -20,12 +20,15 @@ const ProfileView = ({ history }) => {
 
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const { loading, error, user } = userDetails;
+
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
+
   const orderListMy = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
 
@@ -33,7 +36,7 @@ const ProfileView = ({ history }) => {
     if (!userInfo) {
       history.push('/login');
     } else {
-      if (!user.name) {
+      if (!user || !user.name) {
         dispatch(getUserDetails('profile'));
         dispatch(listMyOrders());
       } else {
@@ -134,8 +137,10 @@ const ProfileView = ({ history }) => {
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>{numberFormat('cur-display', order.totalPrice)}</td>
                   <td>
-                    {order.paid ? (
-                      order.paidWhen.substring(0, 10)
+                    {order.isPaid ? (
+                      <span style={{ color: 'green' }}>
+                        {order.paidWhen.substring(0, 10)}
+                      </span>
                     ) : (
                       <i className='fas fa-times' style={{ color: 'red' }}></i>
                     )}
